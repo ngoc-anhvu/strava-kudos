@@ -47,7 +47,7 @@ describe("Strava", () => {
     cy.visit(groupUrl);
 
     let groupName = '';
-    cy.get('div.spans11 > h1.mb-sm').then(($group) => {
+    cy.get('h1.mb-sm').then(($group) => {
       groupName = $group.text();
     });
 
@@ -65,7 +65,7 @@ describe("Strava", () => {
         cy.wrap($el)
           .closest(".react-feed-component")
           .within(() => {
-            if (count > 30) return;
+            if (count >= 20) return;
             let activityUrl = '';
             cy.get('a[data-testid="activity_name"]').then(($act) => {
               activityUrl = $act.prop("href");
