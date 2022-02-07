@@ -14,6 +14,32 @@ describe("Strava", () => {
 		// Homepage
 		cy.url().should("include", "/dashboard");
 
+		const groups = [
+			'475936', // Thích chạy bộ
+			'211129', // Vietnam Trail Series
+			'185074', // Chay365
+			'497461', // Chinh Phục Hồ Tây
+			'257573', // Chạy bộ cuối tuần
+			'264521', // Chạy Cho Khỏe
+			'520161', // SacombankRunners
+			'476043', // Run4Self
+			'127716', // VietRunners
+			'297941', // 21Km - We Can Run
+			'163276', // SRC - Sunday Running Club
+			'458366', // Techcombank
+			'523568', // adidas runners Saigon
+			'478188', // Techcombank - Marathon
+			'539341', // RUN365 VIỆT NAM
+			'230974', // VNG Run Club
+			'460934', // Longpt Friends
+			'193097', // Yêu Chạy Bộ
+		];
+
+		const groupId = groups[Math.floor(Math.random() * groups.length)];
+		cy.log(`Kudos to group ${groupId}`);
+		cy.visit(`https://www.strava.com/clubs/${groupId}/recent_activity`);
+
+		let count = 0;
 		// Kudos
 		cy.scrollTo("bottom", { duration: 1000 }).then(() => {
 			const unfillKudoButtonSelector = "[data-testid=unfilled_kudos]";
@@ -23,11 +49,13 @@ describe("Strava", () => {
 					cy.wrap($el)
 						.closest(".react-feed-component")
 						.within(() => {
+							if (count > 50) return;
 							cy.get('a[data-testid="owners-name"]').then(($owner) => {
 								const ownerId = $owner.prop("href")?.split(STRAVA_ATHLETE_PREFIX)[1];
 								if (ownerId !== Cypress.env("STRAVA_ATHLETE_ID")) {
-									cy.log(`Kudo to ${$owner.text()}'s activity'`);
+									cy.log(`[${count + 1}] Kudo to ${$owner.text()}'s activity`);
 									cy.wrap($el).should("exist").click({ force: true });
+									count++;
 								}
 							});
 						});
