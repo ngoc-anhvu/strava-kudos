@@ -47,7 +47,7 @@ describe("Strava", () => {
     cy.visit(groupUrl);
 
     cy.get('h1.mb-sm').then(($group) => {
-      cy.logInAndOut(`Kudos to ${$group.text()} ${groupUrl}`);
+      cy.logInAndOut(`Kudos to ${$group.text().trim()} ${groupUrl}`);
     });
 
     let count = 0;
