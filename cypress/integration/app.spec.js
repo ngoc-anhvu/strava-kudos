@@ -79,9 +79,18 @@ describe("Strava", () => {
 
             cy.get('a[data-testid="owners-name"]').then(($owner) => {
               const ownerId = $owner.prop("href")?.split(STRAVA_ATHLETE_PREFIX)[1];
-              if (ownerId == Cypress.env("STRAVA_ATHLETE_ID")) return;
-              if (kudoList.includes(ownerId)) return;
-              if (this.followers.includes(ownerId)) return;
+              if (ownerId == Cypress.env("STRAVA_ATHLETE_ID")) {
+                cy.logInAndOut(`[IGNORE] same userId`);
+                return;
+              }
+              if (kudoList.includes(ownerId)) {
+                cy.logInAndOut(`[IGNORE] ${ownerId} has been kudos`);
+                return;
+              }
+              if (this.followers.includes(ownerId)) {
+                cy.logInAndOut(`[IGNORE] ${ownerId} is follower`);
+                return;
+              }
 
               count++;
               kudoList.push(ownerId);
