@@ -65,7 +65,7 @@ describe("Strava", () => {
 
                 if (ownerId !== Cypress.env("STRAVA_ATHLETE_ID")) {
                   count++;
-                  cy.logInAndOut(`[${count}] Kudo to ${$owner.text()}'s activity`);
+                  cy.logInAndOut(`[${count}] Kudo to ${$owner.text()}`);
                   cy.wrap($el).should("exist").click({ force: true });
                 }
               });
