@@ -1,6 +1,14 @@
 /* eslint-disable */
 describe("Strava", () => {
-  it("Auto kudos", () => {
+  beforeEach(function () {
+    // "this" points at the test context object
+    cy.fixture('followers.txt').then((followers) => {
+      // "this" is still the test context object
+      this.followers = followers
+    })
+  })
+
+  it("Auto kudos", function () {
     // Visit Strava
     cy.visit("https://www.strava.com/");
 
@@ -73,6 +81,7 @@ describe("Strava", () => {
               const ownerId = $owner.prop("href")?.split(STRAVA_ATHLETE_PREFIX)[1];
               if (ownerId == Cypress.env("STRAVA_ATHLETE_ID")) return;
               if (kudoList.includes(ownerId)) return;
+              if (this.followers.includes(ownerId)) return;
 
               count++;
               kudoList.push(ownerId);
