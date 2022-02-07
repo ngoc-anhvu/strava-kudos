@@ -54,7 +54,7 @@ describe("Strava", () => {
 					cy.wrap($el)
 						.closest(".react-feed-component")
 						.within(() => {
-							if (count > 50) return;
+							if (count > 30) return;
 							cy.get('a[data-testid="owners-name"]').then(($owner) => {
 								const ownerId = $owner.prop("href")?.split(STRAVA_ATHLETE_PREFIX)[1];
 								if (ownerId !== Cypress.env("STRAVA_ATHLETE_ID")) {
