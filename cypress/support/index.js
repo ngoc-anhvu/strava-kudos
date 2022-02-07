@@ -14,3 +14,8 @@ Cypress.Commands.overwrite("type", (originalFn, element, text, options) => {
 
   return originalFn(element, text, options);
 });
+
+Cypress.Commands.add("logInAndOut", (message) => {
+  cy.log(message)
+  cy.task('log', message)
+});

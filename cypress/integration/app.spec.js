@@ -36,12 +36,12 @@ describe("Strava", () => {
 		];
 
 		const groupId = groups[Math.floor(Math.random() * groups.length)];
-		cy.log(`Kudos to group ${groupId}`);
+		cy.logInAndOut(`Kudos to group ${groupId}`);
 		cy.visit(`https://www.strava.com/clubs/${groupId}/recent_activity`);
 
 		let count = 0;
 		// Kudos
-		cy.scrollTo("bottom", { duration: 1000 }).then(() => {
+		cy.scrollTo("bottomLeft", { duration: 1000 }).then(() => {
 			const unfillKudoButtonSelector = "[data-testid=unfilled_kudos]";
 			const STRAVA_ATHLETE_PREFIX = "https://www.strava.com/athletes/";
 			if (Cypress.$(unfillKudoButtonSelector).length > 0) {
@@ -53,7 +53,7 @@ describe("Strava", () => {
 							cy.get('a[data-testid="owners-name"]').then(($owner) => {
 								const ownerId = $owner.prop("href")?.split(STRAVA_ATHLETE_PREFIX)[1];
 								if (ownerId !== Cypress.env("STRAVA_ATHLETE_ID")) {
-									cy.log(`[${count + 1}] Kudo to ${$owner.text()}'s activity`);
+									cy.logInAndOut(`[${count + 1}] Kudo to ${$owner.text()}'s activity`);
 									cy.wrap($el).should("exist").click({ force: true });
 									count++;
 								}
