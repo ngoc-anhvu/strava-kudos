@@ -40,8 +40,9 @@ describe("Strava", () => {
 		];
 
 		const groupId = groups[Math.floor(Math.random() * groups.length)];
-		cy.logInAndOut(`Kudos to group ${groupId}`);
-		cy.visit(`https://www.strava.com/clubs/${groupId}/recent_activity`);
+		const groupUrl = `https://www.strava.com/clubs/${groupId}/recent_activity`;
+		cy.logInAndOut(`Kudos to ${groupUrl}`);
+		cy.visit(groupUrl);
 
 		let count = 0;
 		// Kudos
