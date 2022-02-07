@@ -46,12 +46,9 @@ describe("Strava", () => {
     const groupUrl = `https://www.strava.com/clubs/${groupId}/recent_activity`;
     cy.visit(groupUrl);
 
-    let groupName = '';
     cy.get('h1.mb-sm').then(($group) => {
-      groupName = $group.text();
+      cy.logInAndOut(`Kudos to ${$group.text()} ${groupUrl}`);
     });
-
-    cy.logInAndOut(`Kudos to ${groupName} ${groupUrl}`);
 
     let count = 0;
     // Kudos
