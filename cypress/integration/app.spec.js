@@ -33,6 +33,10 @@ describe("Strava", () => {
 			'230974', // VNG Run Club
 			'460934', // Longpt Friends
 			'193097', // Yêu Chạy Bộ
+			'463356', // Garmin Vietnam
+			'855444', // MAF VietNam
+			'285464', // Run To Eat
+			'586241', // YÊU CHẠY BỘ
 		];
 
 		const groupId = groups[Math.floor(Math.random() * groups.length)];
