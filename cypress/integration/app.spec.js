@@ -42,7 +42,7 @@ describe("Strava", () => {
     const unfillKudoButtonSelector = "[data-testid=unfilled_kudos]";
     const STRAVA_ATHLETE_PREFIX = "https://www.strava.com/athletes/";
 
-    const groupId = groups[Math.floor(Math.random() * groups.length)] = '230974';
+    const groupId = groups[Math.floor(Math.random() * groups.length)];
     const groupUrl = `https://www.strava.com/clubs/${groupId}/recent_activity`;
     cy.logInAndOut(`Kudos to ${groupUrl}`);
     cy.visit(groupUrl);
@@ -56,12 +56,13 @@ describe("Strava", () => {
     cy.scrollTo("topLeft", { duration: 0 }).then(() => {
       if (Cypress.$(unfillKudoButtonSelector).length > 0) {
         cy.get(unfillKudoButtonSelector).each(($el, index, $list) => {
-          if (count >= 20) return;
           cy.wrap($el)
             .closest(".react-feed-component")
             .within(() => {
               cy.get('a[data-testid="owners-name"]').then(($owner) => {
                 const ownerId = $owner.prop("href")?.split(STRAVA_ATHLETE_PREFIX)[1];
+                if (count >= 20) return;
+
                 if (ownerId !== Cypress.env("STRAVA_ATHLETE_ID")) {
                   count++;
                   cy.logInAndOut(`[${count}] Kudo to ${$owner.text()}'s activity`);
