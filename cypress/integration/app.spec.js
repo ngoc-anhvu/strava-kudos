@@ -44,8 +44,14 @@ describe("Strava", () => {
 
     const groupId = groups[Math.floor(Math.random() * groups.length)];
     const groupUrl = `https://www.strava.com/clubs/${groupId}/recent_activity`;
-    cy.logInAndOut(`Kudos to ${groupUrl}`);
     cy.visit(groupUrl);
+
+    let groupName = '';
+    cy.get('div.spans11 > h1.mb-sm').then(($group) => {
+      groupName = $group.text();
+    });
+
+    cy.logInAndOut(`Kudos to ${groupName} ${groupUrl}`);
 
     let count = 0;
     // Kudos
@@ -54,23 +60,28 @@ describe("Strava", () => {
     cy.scrollTo("bottomLeft", { duration: 2000 });
     cy.wait(2000);
     cy.scrollTo("topLeft", { duration: 0 }).then(() => {
-      if (Cypress.$(unfillKudoButtonSelector).length > 0) {
-        cy.get(unfillKudoButtonSelector).each(($el, index, $list) => {
-          cy.wrap($el)
-            .closest(".react-feed-component")
-            .within(() => {
-              if (count > 20) return;
-              cy.get('a[data-testid="owners-name"]').then(($owner) => {
-                const ownerId = $owner.prop("href")?.split(STRAVA_ATHLETE_PREFIX)[1];
-                if (ownerId !== Cypress.env("STRAVA_ATHLETE_ID")) {
-                  count++;
-                  cy.logInAndOut(`[${count}] Kudo to ${$owner.text()}`);
-                  cy.wrap($el).should("exist").click({ force: true });
-                }
-              });
+      // if (Cypress.$(unfillKudoButtonSelector).length > 0) {
+      cy.get(unfillKudoButtonSelector).each(($el, index, $list) => {
+        cy.wrap($el)
+          .closest(".react-feed-component")
+          .within(() => {
+            if (count > 30) return;
+            let activityUrl = '';
+            cy.get('a[data-testid="activity_name"]').then(($act) => {
+              activityUrl = $act.prop("href");
             });
-        });
-      }
+
+            cy.get('a[data-testid="owners-name"]').then(($owner) => {
+              const ownerId = $owner.prop("href")?.split(STRAVA_ATHLETE_PREFIX)[1];
+              if (ownerId !== Cypress.env("STRAVA_ATHLETE_ID")) {
+                count++;
+                cy.logInAndOut(`[${count}] Kudo to ${$owner.text()} ${activityUrl}`);
+                cy.wrap($el).should("exist").click({ force: true });
+              }
+            });
+          });
+      });
+      // }
     });
   });
 });
