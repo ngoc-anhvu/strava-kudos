@@ -13,11 +13,6 @@ jobs:
         id: ip
         uses: haythem/public-ip@v1.2
 
-      # - name: Print Public IP
-      #   run: |
-      #     echo ${{ steps.ip.outputs.ipv4 }}
-      #     echo ${{ steps.ip.outputs.ipv6 }}
-
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -27,7 +22,6 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           headless: true
-          # build: yarn build
         env:
           CYPRESS_BASE_URL: ${{ secrets.CYPRESS_BASE_URL }}
           CYPRESS_STRAVA_USERNAME: ${{ secrets.CYPRESS_STRAVA_USERNAME }}
