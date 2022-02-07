@@ -24,4 +24,4 @@ jobs:
           CYPRESS_STRAVA_PW: ${{ secrets.CYPRESS_STRAVA_PW }}
           CYPRESS_STRAVA_ATHLETE_ID: ${{ secrets.CYPRESS_STRAVA_ATHLETE_ID }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DEBUG: 'cypress:*'
+          DEBUG: ${{ secrets.CYPRESS_DEBUG }}
