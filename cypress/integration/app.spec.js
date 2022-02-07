@@ -51,6 +51,7 @@ describe("Strava", () => {
     });
 
     let count = 0;
+    const kudoList = [];
     // Kudos
     cy.scrollTo("bottomLeft", { duration: 2000 });
     cy.wait(2000);
@@ -70,11 +71,13 @@ describe("Strava", () => {
 
             cy.get('a[data-testid="owners-name"]').then(($owner) => {
               const ownerId = $owner.prop("href")?.split(STRAVA_ATHLETE_PREFIX)[1];
-              if (ownerId !== Cypress.env("STRAVA_ATHLETE_ID")) {
-                count++;
-                cy.logInAndOut(`[${count}] Kudo to ${$owner.text()} ${activityUrl}`);
-                cy.wrap($el).should("exist").click({ force: true });
-              }
+              if (ownerId == Cypress.env("STRAVA_ATHLETE_ID")) return;
+              if (kudoList.includes(ownerId)) return;
+
+              count++;
+              kudoList.push(ownerId);
+              cy.logInAndOut(`[${count}] Kudo to ${$owner.text()} ${activityUrl}`);
+              cy.wrap($el).should("exist").click({ force: true });
             });
           });
       });
