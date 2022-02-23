@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  cypress-run:
+  python-run:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -18,10 +18,10 @@ jobs:
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
           
       - name: "Install dependencies"
-      run: |
-        python -VV
-        python -m site
-        python -m pip install --upgrade pip setuptools wheel
-        python -m pip install -r strava-scraper/requirements.txt
+        run: |
+          python -VV
+          python -m site
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install -r strava-scraper/requirements.txt
           
       - run: python strava-scraper/scraper.py -a ${{ secrets.CYPRESS_STRAVA_ATHLETE_ID }} -s following -c ${{ secrets.STRAVA_SESSION }}
