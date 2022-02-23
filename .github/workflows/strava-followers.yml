@@ -1,4 +1,4 @@
-name: strava-kudos
+name: strava-followers
 
 on:
   schedule:
