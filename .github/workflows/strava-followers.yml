@@ -24,4 +24,4 @@ jobs:
           python -m pip install --upgrade pip setuptools wheel
           python -m pip install -r strava-scraper/requirements.txt
           
-      - run: python strava-scraper/scraper.py -a ${{ secrets.CYPRESS_STRAVA_ATHLETE_ID }} -s following -c ${{ secrets.STRAVA_SESSION }}
+      - run: python strava-scraper/scraper.py -a ${{ secrets.CYPRESS_STRAVA_ATHLETE_ID }} -s followers -c ${{ secrets.STRAVA_SESSION }}
