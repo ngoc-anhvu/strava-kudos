@@ -16,22 +16,22 @@ jobs:
         with:
           python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-          
+
       - name: "Install dependencies"
         run: |
           python -VV
           python -m site
           python -m pip install --upgrade pip setuptools wheel
           python -m pip install -r strava-scraper/requirements.txt
-          
-      - run: python strava-scraper/scraper.py -a ${{ secrets.CYPRESS_STRAVA_ATHLETE_ID }} -s followers -c ${{ secrets.STRAVA_SESSION }}
 
-      - run: mv "strava-scraper/output.txt" "cypress/fixtures/followers.txt"
-      
+      - name: Get Followers
+        run: python strava-scraper/scraper.py -a ${{ secrets.CYPRESS_STRAVA_ATHLETE_ID }} -s followers -c ${{ secrets.STRAVA_SESSION }}
+
       - name: Commit files
         run: |
+          mv "output.txt" "cypress/fixtures/followers.txt"
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
+          git add "cypress/fixtures/followers.txt"
           git commit -am "Update followers"
           git push
-      
