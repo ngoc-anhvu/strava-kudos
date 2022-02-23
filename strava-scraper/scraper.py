@@ -3,10 +3,10 @@ from bs4 import BeautifulSoup
 import re
 import argparse
 from followtype import FollowType
-
+import sys
 
 def data(athlete_id, follow_type, cookie):
-    i = 1
+    i = 0
     follows=""
     while True:
         URL = 'https://www.strava.com/athletes/{}/follows?type={}&page={}'.format(str(athlete_id),
@@ -28,6 +28,9 @@ def data(athlete_id, follow_type, cookie):
                 follows += result['data-athlete-id'] + "\n"
         # print result['data-athlete-id'] , avatar['title'].encode('utf-8')
         i = i + 1
+    
+    if i == 0:
+        sys.exit(1)
     
     with open("output.txt", "w") as text_file:
         text_file.write(follows)
