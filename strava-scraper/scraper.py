@@ -10,7 +10,6 @@ def data(athlete_id, follow_type, cookie):
     while True:
         URL = 'https://www.strava.com/athletes/{}/follows?type={}&page={}'.format(str(athlete_id),
                                                                                   follow_type, str(i))
-        print(URL)
         cookies = {'_strava4_session': cookie}
 
         page = requests.get(URL, cookies=cookies)
