@@ -1,0 +1,27 @@
+name: strava-kudos
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+          
+      - name: "Install dependencies"
+      run: |
+        python -VV
+        python -m site
+        python -m pip install --upgrade pip setuptools wheel
+        python -m pip install -r strava-scraper/requirements.txt
+          
+      - run: python strava-scraper/scraper.py -a ${{ secrets.CYPRESS_STRAVA_ATHLETE_ID }} -s following -c ${{ secrets.STRAVA_SESSION }}
