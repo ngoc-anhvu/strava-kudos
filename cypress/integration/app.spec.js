@@ -5,7 +5,14 @@ describe("Strava", () => {
     cy.fixture('followers.txt').then((followers) => {
       // "this" is still the test context object
       this.followers = followers
-    })
+    });
+    
+    cy.fixture('groups.txt').then((groups) => {
+      // "this" is still the test context object
+      let arr1 = groups.split(/\r?\n/)
+      let arr2 = arr1.map(x => x.split(' ')[0])
+      this.groups = arr2
+    });
   })
 
   it("Auto kudos", function () {
@@ -22,35 +29,10 @@ describe("Strava", () => {
     // Homepage
     cy.url().should("include", "/dashboard");
 
-    const groups = [
-      '475936', // Thích chạy bộ
-      '211129', // Vietnam Trail Series
-      '185074', // Chay365
-      '497461', // Chinh Phục Hồ Tây
-      '257573', // Chạy bộ cuối tuần
-      '264521', // Chạy Cho Khỏe
-      '520161', // SacombankRunners
-      '476043', // Run4Self
-      '127716', // VietRunners
-      '297941', // 21Km - We Can Run
-      '163276', // SRC - Sunday Running Club
-      '458366', // Techcombank
-      '523568', // adidas runners Saigon
-      '478188', // Techcombank - Marathon
-      '539341', // RUN365 VIỆT NAM
-      '230974', // VNG Run Club
-      '460934', // Longpt Friends
-      '193097', // Yêu Chạy Bộ
-      '463356', // Garmin Vietnam
-      '855444', // MAF VietNam
-      '285464', // Run To Eat
-      '586241', // YÊU CHẠY BỘ
-    ];
-
     const unfillKudoButtonSelector = "[data-testid=unfilled_kudos]";
     const STRAVA_ATHLETE_PREFIX = "https://www.strava.com/athletes/";
 
-    const groupId = groups[Math.floor(Math.random() * groups.length)];
+    const groupId = this.groups[Math.floor(Math.random() * this.groups.length)];
     const groupUrl = `https://www.strava.com/clubs/${groupId}/recent_activity`;
     cy.visit(groupUrl);
 
