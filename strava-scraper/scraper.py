@@ -6,10 +6,11 @@ from followtype import FollowType
 
 def data(athlete_id, follow_type, cookie):
     i = 1
-    follows=""
+    follows=[]
     while True:
         URL = 'https://www.strava.com/athletes/{}/follows?type={}&page={}'.format(str(athlete_id),
                                                                                   follow_type, str(i))
+
         cookies = {'_strava4_session': cookie}
 
         page = requests.get(URL, cookies=cookies)
@@ -23,14 +24,15 @@ def data(athlete_id, follow_type, cookie):
             avatar = result.find("div", class_="avatar")
             if avatar is not None:
                 print(result['data-athlete-id'], avatar['title'])
-                follows += result['data-athlete-id'] + "\n"
+                follows.append(result['data-athlete-id'])
         # print result['data-athlete-id'] , avatar['title'].encode('utf-8')
         i = i + 1
     
+    follows.sort(key=int)
     with open("output.txt", "w") as text_file:
-        text_file.write(follows)
-
-
+        for item in follows:
+            text_file.write(item + '\n')
+        text_file.flush()
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-a", "--athleteid", help="strava athlete id", type=int, required=True)
