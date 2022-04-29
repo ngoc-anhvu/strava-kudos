@@ -51,7 +51,8 @@ describe("Strava", () => {
       // if (Cypress.$(unfillKudoButtonSelector).length > 0) {
       cy.get(unfillKudoButtonSelector).each(($el, index, $list) => {
         cy.wrap($el)
-          .closest(".react-feed-component")
+          // .closest(".react-feed-component")
+          .closest('div[data-testid="web-feed-entry"]')
           .within(() => {
             if (count >= 20) return;
             let activityUrl = '';
